@@ -30,7 +30,8 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 
 @Configuration
 @EnableWebMvcSecurity
-@Profile("dev")
+//@Profile("dev")
+@Profile("default")
 public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -38,7 +39,7 @@ public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		/* With this embedded auth in place there is no need to use a datasource to lookup the users */
 		auth.inMemoryAuthentication()
-		.withUser("user").password("password").roles("USER");
+		.withUser("admin").password("admin").roles("USER");
 	}
 
 	@Override

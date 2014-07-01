@@ -29,9 +29,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 public class JMSDestinationStats implements Serializable {
 
 	private String destinationName;
-	private int queueDepth;
+	private Integer queueDepth;
 	private Date timestampOldestMessage;
-	private int consumerCount;
 	private String brokerHost;
 	
 	// Getters / Setters
@@ -42,11 +41,11 @@ public class JMSDestinationStats implements Serializable {
 		this.destinationName = destinationName;
 	}
 	
-	public int getQueueDepth() {
+	public Integer getQueueDepth() {
 		return queueDepth;
 	}
 	
-	public void setQueueDepth(int queueDepth) {
+	public void setQueueDepth(Integer queueDepth) {
 		this.queueDepth = queueDepth;
 	}
 	
@@ -56,13 +55,6 @@ public class JMSDestinationStats implements Serializable {
 	
 	public void setTimestampOldestMessage(Date timestampOldestMessage) {
 		this.timestampOldestMessage = timestampOldestMessage;
-	}
-
-	public int getConsumerCount() {
-		return consumerCount;
-	}
-	public void setConsumerCount(int consumerCount) {
-		this.consumerCount = consumerCount;
 	}
 	
 	public String getBrokerHost() {

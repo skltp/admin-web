@@ -33,7 +33,8 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 
 @Configuration
 @EnableWebMvcSecurity
-@Profile("default")
+//@Profile("default")
+@Profile("nop")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
