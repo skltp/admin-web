@@ -1,0 +1,67 @@
+<!--
+
+    Copyright (c) 2014 Center for eHalsa i samverkan (CeHis).
+    								<http://cehis.se/>
+
+    This file is part of SKLTP.
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+-->
+<div class="header">
+  <ul class="nav nav-pills pull-right">
+    <li class="active"><a ng-href="#/main">Hem</a></li>
+  </ul>
+  <h3 class="text-muted">Övervakning - PingForConfiguration</h3>
+</div>
+
+<div class="row marketing">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Url</th>
+                <th>#Ok</th>
+                <th>#Fel</th>
+                <th>#Timeout</th>
+                <th>Senaste fel</th>
+                <th>Senaste felmeddelande</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="pfgStatus in pingForConfiguration.list">
+                <td><img src=" {{pfgStatus.statusImage}}"> - {{pfgStatus.status}}</td>
+                <td>{{pfgStatus.name}}</td>
+                <td>{{pfgStatus.url}}</td>
+                <td>{{pfgStatus.okCounter}}</td>
+                <td>{{pfgStatus.failureCounter}}</td>
+                <td>{{pfgStatus.timeoutCounter}}</td>
+                <td>{{pfgStatus.lastErrorTime}}</td>
+                <td>{{pfgStatus.lastErrorMessage}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row marketing">
+    <h4>Konfiguration</h4>
+    <p>
+        Ping intervall: {{pingForConfiguration.pingIntervalSecs}} sek.
+        Timeout: {{pingForConfiguration.timeoutSecs}} sek.
+        Sidan uppdateras om {{pfcReloadInSecs}} sek...
+    </p>
+</div>
+
