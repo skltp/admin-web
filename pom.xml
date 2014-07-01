@@ -21,22 +21,22 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>se.skltp.admin</groupId>
-	<artifactId>skltp-admin-web</artifactId>
-	<name>skltp-admin-web</name>
-	<version>1.0.4-SNAPSHOT</version>
+	<groupId>se.skltp.jms-admin-web</groupId>
+	<artifactId>jms-admin-web</artifactId>
+	<name>jms-admin-web</name>
+	<version>1.0.2</version>
 	<url>http://maven.apache.org</url>
 	<packaging>war</packaging>
 
 	<properties>
-		<spring-boot.version>1.0.2.RELEASE</spring-boot.version>
+		<spring-boot.version>1.0.0.RC4</spring-boot.version>
 		<java.version>1.7</java.version>
 	</properties>
 
 	<scm>
-        <connection>scm:svn:https://skltp.googlecode.com/svn/tp/admin-web/trunk/</connection>
-        <developerConnection>scm:svn:https://skltp.googlecode.com/svn/tp/admin-web/trunk/</developerConnection>
-        <url>http://skltp.googlecode.com/svn/tp/admin-web/trunk/</url>
+        <connection>scm:svn:https://skltp.googlecode.com/svn/tp/jms-admin-web/tags/jms-admin-web-1.0.2</connection>
+        <developerConnection>scm:svn:https://skltp.googlecode.com/svn/tp/jms-admin-web/tags/jms-admin-web-1.0.2</developerConnection>
+        <url>http://skltp.googlecode.com/svn/tp/jms-admin-web/tags/jms-admin-web-1.0.2</url>
     </scm>
 
 	<dependencies>

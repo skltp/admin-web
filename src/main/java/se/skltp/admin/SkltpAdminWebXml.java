@@ -18,36 +18,27 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package se.skltp.admin.modules.pfc.domain;
+package se.skltp.admin;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+public class SkltpAdminWebXml extends SpringBootServletInitializer {
 
+	public static void main(String[] args) {
+		SpringApplication.run(SkltpAdminWebXml.class, args);
+	}
 
-@JsonRootName("pingforconfigurationsstats")
-public class PingForConfigurationStats {
-
-    private final int pingIntervalSecs;
-    private final int timeoutSecs;
-
-    private List<PingForConfigurationStat> list;
-
-    public PingForConfigurationStats(int pingIntervalSecs, int timeoutSecs, List<PingForConfigurationStat> pingForConfigurationStats) {
-        this.pingIntervalSecs = pingIntervalSecs;
-        this.timeoutSecs = timeoutSecs;
-        list = pingForConfigurationStats;
-    }
-
-    public int getPingIntervalSecs() {
-        return pingIntervalSecs;
-    }
-
-    public int getTimeoutSecs() {
-        return timeoutSecs;
-    }
-
-    public List<PingForConfigurationStat> getList() {
-        return list;
-    }
+	@Override
+	protected SpringApplicationBuilder configure(
+			SpringApplicationBuilder application) {
+		return application.sources(SkltpAdminWebXml.class);
+	}
 }
