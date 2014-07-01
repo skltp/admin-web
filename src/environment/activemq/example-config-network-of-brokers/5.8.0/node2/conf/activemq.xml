@@ -32,10 +32,7 @@
     <!--
         The <broker> element is used to configure the ActiveMQ broker.
     -->
-    <!--
     <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${activemq.data}" useJmx="true">
-    -->
-    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="nob580_2" dataDirectory="${activemq.data}" useJmx="true">
 
         <!--
             For better performances use VM cursor and small memory limit.
@@ -102,37 +99,6 @@
             <kahaDB directory="${activemq.data}/kahadb"/>
         </persistenceAdapter>
 
-<!-- #HD: auth -->
-        <plugins>
-          <simpleAuthenticationPlugin anonymousAccessAllowed="true">
-            <users>
-              <authenticationUser username="admin" password="admin.pwd" groups="users,admins"/>
-              <authenticationUser username="ntjpUsr" password="ntjpUsr.pwd" groups="users,ntjpGrp"/>
-              <authenticationUser username="nonNtjpUsr" password="nonNtjpUsr.pwd" groups="users,nonNtjpGrp"/>
-            </users>
-          </simpleAuthenticationPlugin>
-          <authorizationPlugin>
-            <map>
-              <authorizationMap>
-                <authorizationEntries>
-                  <authorizationEntry queue=">" read="admins" write="admins" admin="admins"/>
-                  
-                  <authorizationEntry queue="NONTP.QUEUES.>" read="nonNtjpUsr" write="nonNtjpUsr" admin="nonNtjpUsr"/>
-
-                  <authorizationEntry queue=">" read="admins" write="admins" admin="admins"/>
-                  <authorizationEntry queue="skltp.>" read="ntjpGrp,anonymous" write="ntjpGrp,anonymous" admin="ntjpGrp,anonymous"/>
-                  <authorizationEntry queue="EI.>" read="ntjpGrp,anonymous" write="ntjpGrp,anonymous" admin="ntjpGrp,anonymous"/>
-                  <authorizationEntry queue="wiretap-RegisterMedicalCertificate-queue.>" read="ntjpGrp,anonymous" write="ntjpGrp,anonymous" admin="ntjpGrp,anonymous"/>
-                  <authorizationEntry queue="wiretap-SendMedicalCertificateQuestion-queue.>" read="ntjpGrp,anonymous" write="ntjpGrp,anonymous" admin="ntjpGrp,anonymous"/>
-                  <authorizationEntry queue="GETAGGREGATEDSUBJECTOFCARESCHEDULE.>" read="ntjpGrp,anonymous" write="ntjpGrp,anonymous" admin="ntjpGrp,anonymous"/>
-                  <authorizationEntry queue="SOITOOLKIT.>" read="ntjpGrp,anonymous" write="ntjpGrp,anonymous" admin="ntjpGrp,anonymous"/>
-                  <authorizationEntry topic=">" read="admins" write="admins" admin="admins"/>
-                  <authorizationEntry topic="ActiveMQ.Advisory.>" read="users,anonymous" write="users,anonymous" admin="users,anonymous"/>
-                </authorizationEntries>
-              </authorizationMap>
-            </map>
-          </authorizationPlugin>
-        </plugins>
 
           <!--
             The systemUsage controls the maximum amount of space the broker will

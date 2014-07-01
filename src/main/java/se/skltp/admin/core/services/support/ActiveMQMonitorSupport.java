@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.jms.InvalidSelectorException;
@@ -51,13 +50,8 @@ import se.skltp.admin.rest.domain.JMSDestinationStats;
 public class ActiveMQMonitorSupport {
 	private Logger log = LoggerFactory.getLogger(ActiveMQMonitorSupport.class);
 	private String[] jmxServiceUrls;
-	private String[] jmxBrokerNames;
 	private String[] brokerUrls;
 	private String[] brokerPresentationName;
-	private String[] queuePatterns;
-	private boolean useBrokerCredentials;
-	private String brokerUsername;
-	private String brokerPassword;
 
 	/**
 	 * For testing only.
@@ -68,17 +62,8 @@ public class ActiveMQMonitorSupport {
 	public static void main_REMOVED_FOR_SPRING_BOOT_TO_FIND_A_SINGLE_MAIN_CLASS(
 			String[] args) {
 		try {
-			String brokerHosts = "localhost, 127.0.0.1";
-			String brokerJmxPorts = "1616, 1617";
-			String brokerPorts = "61616, 61617";
-			// String brokerNames = "localhost, localhost";
-			String brokerNames = "nob580_1, nob580_2";
-			String queuePatterns = "queue.1,queue.2";
-
 			ActiveMQMonitorSupport amqBrowser = new ActiveMQMonitorSupport(
-					brokerHosts, brokerJmxPorts, brokerPorts, brokerNames,
-					queuePatterns);
-
+					"localhost, 127.0.0.1", "1616, 1617", "61616, 61617");
 			List<JMSDestinationStats> jmsDestinationStats = new ArrayList<JMSDestinationStats>();
 			amqBrowser.pollAmqBrokerForStats(jmsDestinationStats);
 
@@ -95,7 +80,7 @@ public class ActiveMQMonitorSupport {
 	}
 
 	public ActiveMQMonitorSupport(String amqHost, String amqJmxPort,
-			String amqBrokerPort, String amqBrokerName, String queuePatterns) {
+			String amqBrokerPort) {
 
 		// this.jmxServiceUrls = "service:jmx:rmi:///jndi/rmi://" + amqHost +
 		// ":" + amqJmxPort + "/jmxrmi";
@@ -104,40 +89,21 @@ public class ActiveMQMonitorSupport {
 		String[] amqHosts = parseConfigEntry(amqHost);
 		String[] amqJmxPorts = parseConfigEntry(amqJmxPort);
 		String[] amqBrokerPorts = parseConfigEntry(amqBrokerPort);
-		String[] amqBrokerNames = parseConfigEntry(amqBrokerName);
-		this.queuePatterns = parseConfigEntry(queuePatterns);
 
-		if (!(amqHosts.length == amqJmxPorts.length
-				&& amqHosts.length == amqBrokerPorts.length && amqHosts.length == amqBrokerNames.length)) {
+		if (!(amqHosts.length == amqJmxPorts.length && amqHosts.length == amqBrokerPorts.length)) {
 			throw new IllegalArgumentException(
 					"Configuration exception: number of hosts and ports do not match");
 		}
 
 		jmxServiceUrls = new String[amqHosts.length];
-		jmxBrokerNames = new String[amqHosts.length];
 		brokerUrls = new String[amqHosts.length];
 		brokerPresentationName = new String[amqHosts.length];
 		for (int i = 0; i < amqHosts.length; i++) {
 			jmxServiceUrls[i] = "service:jmx:rmi:///jndi/rmi://" + amqHosts[i]
 					+ ":" + amqJmxPorts[i] + "/jmxrmi";
-			// valid for AMQ > 5.8, JMX names changed in AMQ 5.8 - see release
-			// notes
-			jmxBrokerNames[i] = "org.apache.activemq:brokerName="
-					+ amqBrokerNames[i] + ",type=Broker";
 			brokerUrls[i] = "tcp://" + amqHosts[i] + ":" + amqBrokerPorts[i];
 			brokerPresentationName[i] = amqHosts[i] + ":" + amqBrokerPorts[i];
 		}
-	}
-	
-	public void setBrokerUsername(String brokerUsername) {
-		this.brokerUsername = brokerUsername;
-		if (brokerUsername != null && brokerUsername.trim().length() > 0) {
-			useBrokerCredentials = true;
-		}
-	}
-
-	public void setBrokerPassword(String brokerPassword) {
-		this.brokerPassword = brokerPassword;
 	}
 
 	/**
@@ -159,9 +125,7 @@ public class ActiveMQMonitorSupport {
 		for (int i = 0; i < jmxServiceUrls.length; i++) {
 			try {
 				List<JMSDestinationStats> statsForBroker = pollAmqBrokerUsingJmx(
-						jmxServiceUrls[i], jmxBrokerNames[i],
-						brokerPresentationName[i]);
-				filterStatsUsingQueuePatterns(statsForBroker);
+						jmxServiceUrls[i], brokerPresentationName[i]);
 				populateTimestampForOldestMessageOnQueues(statsForBroker,
 						brokerUrls[i]);
 				jmsDestinationStats.addAll(statsForBroker);
@@ -178,48 +142,14 @@ public class ActiveMQMonitorSupport {
 		sortList(jmsDestinationStats);
 	}
 
-	void filterStatsUsingQueuePatterns(List<JMSDestinationStats> stats) {
-		for (Iterator iter = stats.iterator(); iter.hasNext();) {
-			JMSDestinationStats stat = (JMSDestinationStats) iter.next();
-			boolean foundPatternMatch = false;
-			for (String queuePattern : queuePatterns) {
-				if (stat.getDestinationName().contains(queuePattern)) {
-					foundPatternMatch = true;
-					break;
-				}
-			}
-			if (!foundPatternMatch) {
-				iter.remove();
-			}
-		}
-	}
-
 	private void sortList(List<JMSDestinationStats> jmsDestinationStats) {
-		// sort list by: oldest message, queue depth, queue name, broker
+		// sort list by: queue name, broker
 		Comparator<JMSDestinationStats> c = new Comparator<JMSDestinationStats>() {
 			@Override
 			public int compare(JMSDestinationStats stat1,
 					JMSDestinationStats stat2) {
-				int result = 0;
-				// oldest message
-				if (result == 0) {
-					long t1 = stat1.getTimestampOldestMessage() != null ? stat1
-							.getTimestampOldestMessage().getTime() : 0;
-					long t2 = stat2.getTimestampOldestMessage() != null ? stat2
-							.getTimestampOldestMessage().getTime() : 0;
-					result = Long.compare(t2, t1);
-				}
-				// queue depth
-				if (result == 0) {
-					result = Integer.compare(stat2.getQueueDepth(),
-							stat1.getQueueDepth());
-				}
-				// queue name
-				if (result == 0) {
-					result = stat1.getDestinationName().compareTo(
-							stat2.getDestinationName());
-				}
-				// broker name
+				int result = stat1.getDestinationName().compareTo(
+						stat2.getDestinationName());
 				if (result == 0) {
 					result = stat1.getBrokerHost().compareTo(
 							stat2.getBrokerHost());
@@ -231,8 +161,7 @@ public class ActiveMQMonitorSupport {
 	}
 
 	protected List<JMSDestinationStats> pollAmqBrokerUsingJmx(
-			String jmxServiceUrl, String jmxBrokerName,
-			String brokerPresentationName) {
+			String jmxServiceUrl, String brokerPresentationName) {
 		JMXConnector jmxc = null;
 		try {
 			JMXServiceURL url = new JMXServiceURL(jmxServiceUrl);
@@ -244,8 +173,7 @@ public class ActiveMQMonitorSupport {
 			// System.out.println(s);
 			// }
 
-			return pollAmqBrokerUsingJmx(mbsc, jmxBrokerName,
-					brokerPresentationName);
+			return pollAmqBrokerUsingJmx(mbsc, brokerPresentationName);
 		} catch (Exception e) {
 			log.error("could not connect using JMX", e);
 			throw new RuntimeException(e);
@@ -261,9 +189,8 @@ public class ActiveMQMonitorSupport {
 	}
 
 	protected List<JMSDestinationStats> pollAmqBrokerUsingJmx(
-			MBeanServerConnection mbsc, String jmxBrokerName,
-			String brokerPresentationName) throws MalformedObjectNameException,
-			InvalidSelectorException {
+			MBeanServerConnection mbsc, String brokerPresentationName)
+			throws MalformedObjectNameException, InvalidSelectorException {
 
 		// Note: JMX changes from AMQ 5.6 to 5.8:
 		// https://issues.apache.org/jira/browse/AMQ-4237
@@ -272,7 +199,8 @@ public class ActiveMQMonitorSupport {
 		// ObjectName mBeanName = new
 		// ObjectName("org.apache.activemq:BrokerName=localhost,Type=Broker");
 		// #5.8
-		ObjectName mBeanName = new ObjectName(jmxBrokerName);
+		ObjectName mBeanName = new ObjectName(
+				"org.apache.activemq:brokerName=localhost,type=Broker");
 		org.apache.activemq.broker.jmx.BrokerViewMBean mbeanProxy = JMX
 				.newMBeanProxy(mbsc, mBeanName,
 						org.apache.activemq.broker.jmx.BrokerViewMBean.class,
@@ -293,7 +221,6 @@ public class ActiveMQMonitorSupport {
 
 			destStat.setDestinationName(qbeanProxy.getName());
 			destStat.setQueueDepth((int) qbeanProxy.getQueueSize());
-			destStat.setConsumerCount((int) qbeanProxy.getConsumerCount());
 			destStat.setBrokerHost(brokerPresentationName);
 
 			// DOES NOT WORK REMOTELY!
@@ -312,13 +239,8 @@ public class ActiveMQMonitorSupport {
 		QueueConnection conn = null;
 		Session session = null;
 		try {
-			ActiveMQConnectionFactory cf = null;
-			if (useBrokerCredentials) {
-				cf = new ActiveMQConnectionFactory(brokerUsername, brokerPassword, brokerUrl);
-			}
-			else {
-				cf = new ActiveMQConnectionFactory(brokerUrl);
-			}
+			ActiveMQConnectionFactory cf = new ActiveMQConnectionFactory(
+					brokerUrl);
 			conn = cf.createQueueConnection();
 			conn.start();
 			session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);

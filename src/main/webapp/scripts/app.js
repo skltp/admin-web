@@ -24,21 +24,16 @@ angular.module('adminWebApp', [
   'ngSanitize',
   'ngRoute',
   'restangular',
-   'jmsDestinationsControllers',
-   'pingForConfigurationModule'
+  'jmsDestinationsControllers'
 ]).config(function ($routeProvider, $locationProvider, $provide) {
     $routeProvider
       .when('/main', {
         templateUrl: 'views/main.html'
       })
-        .when('/activemq', {
-            templateUrl: 'views/activemq/activemq.html',
-            controller: 'jmsDestinationsCtrl'
-        })
-        .when('/pingForConfiguration', {
-            templateUrl: 'modules/pfc/views/list.html',
-            controller: 'pingForConfigurationCtrl'
-        })
+      .when('/activemq', {
+        templateUrl: 'views/activemq/activemq.html',
+        controller: 'jmsDestinationsCtrl'
+      })
       .otherwise({
     	  redirectTo: '/main'
       });

@@ -48,7 +48,6 @@ private static Logger LOG = LoggerFactory.getLogger(DummyJMSDestinationsStatsSer
 		jmsDestination.setQueueDepth(10);
 		jmsDestination.setTimestampOldestMessage(new Date());
 		jmsDestination.setBrokerHost("brokerHost-1");
-		jmsDestination.setConsumerCount(0);
 		jmsDestinationStats.add(jmsDestination);
 		
 		jmsDestination = new JMSDestinationStats();
@@ -56,7 +55,6 @@ private static Logger LOG = LoggerFactory.getLogger(DummyJMSDestinationsStatsSer
 		jmsDestination.setQueueDepth(200);
 		jmsDestination.setTimestampOldestMessage(new Date());
 		jmsDestination.setBrokerHost("brokerHost-1");
-		jmsDestination.setConsumerCount(0);
 		jmsDestinationStats.add(jmsDestination);
 		
 		jmsDestination = new JMSDestinationStats();
@@ -64,7 +62,6 @@ private static Logger LOG = LoggerFactory.getLogger(DummyJMSDestinationsStatsSer
 		jmsDestination.setQueueDepth(59);
 		jmsDestination.setTimestampOldestMessage(new Date());
 		jmsDestination.setBrokerHost("brokerHost-2");
-		jmsDestination.setConsumerCount(1);
 		jmsDestinationStats.add(jmsDestination);
 		
 		jmsDestination = new JMSDestinationStats();
@@ -72,7 +69,6 @@ private static Logger LOG = LoggerFactory.getLogger(DummyJMSDestinationsStatsSer
 		jmsDestination.setQueueDepth(1229);
 		jmsDestination.setTimestampOldestMessage(new Date());
 		jmsDestination.setBrokerHost("brokerHost-2");
-		jmsDestination.setConsumerCount(2);
 		jmsDestinationStats.add(jmsDestination);
 		
 		jmsDestination = new JMSDestinationStats();
@@ -80,7 +76,6 @@ private static Logger LOG = LoggerFactory.getLogger(DummyJMSDestinationsStatsSer
 		jmsDestination.setQueueDepth(0);
 		jmsDestination.setTimestampOldestMessage(new Date());
 		jmsDestination.setBrokerHost("brokerHost-3");
-		jmsDestination.setConsumerCount(3);
 		jmsDestinationStats.add(jmsDestination);
 		
 		return new JMSDestinationsStats(jmsDestinationStats);
