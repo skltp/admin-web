@@ -103,31 +103,3 @@ angular.module('pingForConfigurationModule', []).
     }
 
 }]);
-
-
-
-
-/*
-TODO: ML Place in common JS-file, app.js?
-
-function getPath(location) {
-	var path = "";
-	console.log("Host is " + location.host());
-	
-	//Strip the path of the hash and everything that follows it
-	path = location.absUrl().substr(0, location.absUrl().lastIndexOf("#"));
-	path = path.substr(0).split('/');
-	var noBlankStrings = _.filter(path, function(s) { return s !== ""; }); //Using lodash to filter out emtpy strings
-	var lastNonEmptyElement = noBlankStrings[noBlankStrings.length - 1];
-	
-	if(_.contains(lastNonEmptyElement, location.host())) {
-		console.log("Setting path to blank");
-		path = "";
-	} else {
-		path = lastNonEmptyElement + "/";
-		console.log("Setting path to: " + path);
-	}
-	
-	return path;
-}
-*/
