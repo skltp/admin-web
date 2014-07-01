@@ -32,32 +32,17 @@ import se.skltp.admin.core.services.support.ActiveMQMonitorSupport;
 public class ContextConfig {
 	private static Logger LOG = LoggerFactory.getLogger(ContextConfig.class);
 
-	@Value("${brokerUsername}")
-	private String brokerUsername;
-
-	@Value("${brokerPassword}")
-	private String brokerPassword;
-
 	@Value("${brokerHost}")
 	private String brokerHost;
 
 	@Value("${brokerPort}")
-	private String brokerPort;
+	private int brokerPort;
 
 	@Value("${brokerJmxPort}")
-	private String brokerJmxPort;
-	
-	@Value("${brokerName}")
-	private String brokerName;
-
-	@Value("${queuePatterns}")
-	private String queuePatterns;	
+	private int brokerJmxPort;
 
 	@Bean
 	public ActiveMQMonitorSupport activeMQMonitorSupport() {
-		ActiveMQMonitorSupport amqSupport =  new ActiveMQMonitorSupport(brokerHost, brokerJmxPort, brokerPort, brokerName, queuePatterns);
-		amqSupport.setBrokerUsername(brokerUsername);
-		amqSupport.setBrokerPassword(brokerPassword);
-		return amqSupport;
+		return new ActiveMQMonitorSupport(brokerHost, brokerJmxPort, brokerPort);
 	}
 }

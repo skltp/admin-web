@@ -47,40 +47,30 @@ private static Logger LOG = LoggerFactory.getLogger(DummyJMSDestinationsStatsSer
 		jmsDestination.setDestinationName("Queue-1");
 		jmsDestination.setQueueDepth(10);
 		jmsDestination.setTimestampOldestMessage(new Date());
-		jmsDestination.setBrokerHost("brokerHost-1");
-		jmsDestination.setConsumerCount(0);
 		jmsDestinationStats.add(jmsDestination);
 		
 		jmsDestination = new JMSDestinationStats();
 		jmsDestination.setDestinationName("Queue-2");
 		jmsDestination.setQueueDepth(200);
 		jmsDestination.setTimestampOldestMessage(new Date());
-		jmsDestination.setBrokerHost("brokerHost-1");
-		jmsDestination.setConsumerCount(0);
 		jmsDestinationStats.add(jmsDestination);
 		
 		jmsDestination = new JMSDestinationStats();
 		jmsDestination.setDestinationName("Queue-3");
 		jmsDestination.setQueueDepth(59);
 		jmsDestination.setTimestampOldestMessage(new Date());
-		jmsDestination.setBrokerHost("brokerHost-2");
-		jmsDestination.setConsumerCount(1);
 		jmsDestinationStats.add(jmsDestination);
 		
 		jmsDestination = new JMSDestinationStats();
 		jmsDestination.setDestinationName("Queue-4");
 		jmsDestination.setQueueDepth(1229);
 		jmsDestination.setTimestampOldestMessage(new Date());
-		jmsDestination.setBrokerHost("brokerHost-2");
-		jmsDestination.setConsumerCount(2);
 		jmsDestinationStats.add(jmsDestination);
 		
 		jmsDestination = new JMSDestinationStats();
 		jmsDestination.setDestinationName("Queue-5");
 		jmsDestination.setQueueDepth(0);
 		jmsDestination.setTimestampOldestMessage(new Date());
-		jmsDestination.setBrokerHost("brokerHost-3");
-		jmsDestination.setConsumerCount(3);
 		jmsDestinationStats.add(jmsDestination);
 		
 		return new JMSDestinationsStats(jmsDestinationStats);

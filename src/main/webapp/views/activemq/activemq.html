@@ -35,8 +35,6 @@
           <th>Namn</th>
           <th>Ködjup</th>
           <th>Äldsta meddelande</th>
-          <th>Konsumenter</th>
-          <th>Broker</th>
         </tr>
       </thead>
       <tbody>
@@ -44,8 +42,6 @@
         <td>{{jmsDestination.destinationName}}</td>
 		<td>{{jmsDestination.queueDepth}}</td>
 		<td>{{jmsDestination.timestampOldestMessage | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
-		<td>{{jmsDestination.consumerCount}}</td>
-		<td>{{jmsDestination.brokerHost}}</td>
       </tr>
       </tbody>
   </table>
