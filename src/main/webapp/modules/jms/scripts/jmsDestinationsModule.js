@@ -21,10 +21,40 @@
 'use strict';
 
 angular.module('jmsDestinationsModule', []).
-	controller('jmsDestinationsCtrl', ['$scope', '$http', '$location', 'Restangular', function($scope, $http, $location, Restangular) {
-		 Restangular.one(getPath($location) + 'api/jmsdestinationsstats').getList().then(function(jmsDestinations) {
-	      $scope.jmsDestinations = jmsDestinations;
-	    }, function() {
-	      console.log("There was an error getting the destination");
-	    });
+	controller('jmsDestinationsCtrl', ['$scope', '$http', '$location', '$interval', 'Restangular', function($scope, $http, $location, $interval, Restangular) {
+
+    console.log("jmsDestinationsCtrl setup, v1");
+
+    getStatusFromServer();
+
+    var reloadIntervalInSecs = 10;
+
+    var timerReload = $interval(function () {
+            getStatusFromServer()
+        },
+        reloadIntervalInSecs * 1000);
+
+    var timerCountdown = $interval(function () {
+            $scope.jmsReloadInSecs = $scope.jmsReloadInSecs - 1;
+        },
+        1000);
+
+    // listen on DOM destroy (removal) event, and cancel the next UI update
+    // to prevent updating time ofter the DOM element was removed.
+    $scope.$on('$destroy', function () {
+
+        $interval.cancel(timerReload);
+        $interval.cancel(timerCountdown);
+    });
+
+    function getStatusFromServer() {
+        Restangular.one(getPath($location) + 'api/jmsdestinationsstats').getList().then(function (jmsDestinations) {
+            $scope.jmsDestinations = jmsDestinations;
+            $scope.jmsReloadInSecs = reloadIntervalInSecs;
+
+        }, function () {
+            console.log("There was an error getting the destination");
+        });
+    }
+
   }]);

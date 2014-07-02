@@ -36,16 +36,20 @@ import se.skltp.admin.modules.jms.domain.JMSDestinationsStats;
 @Profile("dev")
 public class DevJMSDestinationsStatsService implements JMSDestinationsStatsService {
 
-private static Logger LOG = LoggerFactory.getLogger(DevJMSDestinationsStatsService.class);
-	
+    private static Logger LOG = LoggerFactory.getLogger(DevJMSDestinationsStatsService.class);
+
+    private static int cnt = 0;
+
 	@Override
 	public JMSDestinationsStats requestJMSDestinationsStats() {
 		LOG.warn("Hardwired jms-destinations are being produced");
-		
+
+        cnt++;
+
 		List<JMSDestinationStats> jmsDestinationStats = new ArrayList<JMSDestinationStats>();
 		JMSDestinationStats jmsDestination = new JMSDestinationStats();
 		jmsDestination.setDestinationName("Queue-1");
-		jmsDestination.setQueueDepth(10);
+		jmsDestination.setQueueDepth(10 + cnt);
 		jmsDestination.setTimestampOldestMessage(new Date());
 		jmsDestination.setBrokerHost("brokerHost-1");
 		jmsDestination.setConsumerCount(0);
@@ -53,7 +57,7 @@ private static Logger LOG = LoggerFactory.getLogger(DevJMSDestinationsStatsServi
 		
 		jmsDestination = new JMSDestinationStats();
 		jmsDestination.setDestinationName("Queue-2");
-		jmsDestination.setQueueDepth(200);
+		jmsDestination.setQueueDepth(200 + 2*cnt);
 		jmsDestination.setTimestampOldestMessage(new Date());
 		jmsDestination.setBrokerHost("brokerHost-1");
 		jmsDestination.setConsumerCount(0);
@@ -61,7 +65,7 @@ private static Logger LOG = LoggerFactory.getLogger(DevJMSDestinationsStatsServi
 		
 		jmsDestination = new JMSDestinationStats();
 		jmsDestination.setDestinationName("Queue-3");
-		jmsDestination.setQueueDepth(59);
+		jmsDestination.setQueueDepth(59 + cnt);
 		jmsDestination.setTimestampOldestMessage(new Date());
 		jmsDestination.setBrokerHost("brokerHost-2");
 		jmsDestination.setConsumerCount(1);
@@ -69,7 +73,7 @@ private static Logger LOG = LoggerFactory.getLogger(DevJMSDestinationsStatsServi
 		
 		jmsDestination = new JMSDestinationStats();
 		jmsDestination.setDestinationName("Queue-4");
-		jmsDestination.setQueueDepth(1229);
+		jmsDestination.setQueueDepth(1229 + 3*cnt);
 		jmsDestination.setTimestampOldestMessage(new Date());
 		jmsDestination.setBrokerHost("brokerHost-2");
 		jmsDestination.setConsumerCount(2);
