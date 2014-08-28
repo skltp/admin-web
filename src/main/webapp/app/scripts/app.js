@@ -25,7 +25,8 @@ angular.module('adminWebApp', [
   'ngRoute',
   'restangular',
    'jmsDestinationsModule',
-   'pingForConfigurationModule'
+   'pingForConfigurationModule',
+   'eiModule'
 ]).config(function ($routeProvider, $locationProvider, $provide) {
     $routeProvider
 
@@ -39,6 +40,22 @@ angular.module('adminWebApp', [
         .when('/pingForConfiguration', {
             templateUrl: 'modules/pfc/views/list.html',
             controller: 'pingForConfigurationCtrl'
+        })
+        .when('/eiLoad', {
+            templateUrl: 'modules/ei/views/eiLoad.html',
+            controller: 'eiCtrl'
+        })
+        .when('/eiSearch', {
+            templateUrl: 'modules/ei/views/eiSearch.html',
+            controller: 'eiCtrl'
+        })
+        .when('/eiDelete', {
+            templateUrl: 'modules/ei/views/eiDelete.html',
+            controller: 'eiCtrl'
+        })
+        .when('/eiResend', {
+            templateUrl: 'modules/ei/views/eiResend.html',
+            controller: 'eiCtrl'
         })
         .otherwise({
     	  redirectTo: '/main'
