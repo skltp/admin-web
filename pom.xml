@@ -34,9 +34,10 @@
 	</properties>
 
 	<scm>
-        <connection>scm:svn:https://skltp.googlecode.com/svn/tp/admin-web/trunk/</connection>
-        <developerConnection>scm:svn:https://skltp.googlecode.com/svn/tp/admin-web/trunk/</developerConnection>
-        <url>http://skltp.googlecode.com/svn/tp/admin-web/trunk/</url>
+        <url>http://github.com/skltp-incubator/admin-web</url>
+        <connection>scm:git:git://github.com/skltp-incubator/admin-web.git</connection>
+        <developerConnection>scm:git:git://github.com/skltp-incubator/admin-web.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 
 	<dependencies>
@@ -266,6 +267,17 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<pushChanges>false</pushChanges>
+					<localCheckout>true</localCheckout>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
