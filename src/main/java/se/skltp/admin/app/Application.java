@@ -35,8 +35,8 @@ import org.springframework.context.annotation.PropertySources;
 // Require that skltp-admin-web-config.properties is present on the classpath.
 // skltp-admin-web-config-override.properties is only optional.
 @PropertySources({
-        @PropertySource("skltp-admin-web-config.properties"),
-        @PropertySource(value = "skltp-admin-web-config-override.properties", ignoreResourceNotFound = true)
+        @PropertySource("classpath:skltp-admin-web-config.properties"),
+        @PropertySource(value = "file:${app.conf.dir}/skltp-admin-web-config-override.properties", ignoreResourceNotFound = true)
 })
 public class Application extends SpringBootServletInitializer {
 
