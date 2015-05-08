@@ -44,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource)
 			.passwordEncoder(new ShaPasswordEncoder())
-			.usersByUsernameQuery("select anvandarnamn AS username, losenord_hash AS password, true AS enabled from anvandare where anvandarnamn = ?")
-			.authoritiesByUsernameQuery("select anvandarnamn AS username, CASE WHEN administrator = 1 THEN 'ROLE_ADMIN' ELSE 'ROLE_USER' END AS authority from anvandare where anvandarnamn = ?");
+			.usersByUsernameQuery("select anvandarnamn AS username, losenord_hash AS password, true AS enabled from Anvandare where anvandarnamn = ?")
+			.authoritiesByUsernameQuery("select anvandarnamn AS username, CASE WHEN administrator = 1 THEN 'ROLE_ADMIN' ELSE 'ROLE_USER' END AS authority from Anvandare where anvandarnamn = ?");
 	}
 
 	@Override
