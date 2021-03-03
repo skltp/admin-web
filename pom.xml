@@ -46,7 +46,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${spring-boot.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -55,6 +54,11 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
@@ -64,7 +68,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${spring-boot.version}</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -73,6 +76,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -231,25 +235,19 @@
 
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+					
 					<webResources>
 						<!-- add build version number to view-page instead of to context-path -->
 						<resource>
-							<directory>src/main/webapp</directory>
+							<directory>src/main/resources/static</directory>
+							<targetPath>WEB-INF/classes/static</targetPath>
 							<filtering>true</filtering>
 							<includes>
-								<include>views/main.html</include>
+								<include>app/views/main.html</include>
 							</includes>
 						</resource>
-						<resource>
-							<directory>src/main/webapp</directory>
-							<filtering>false</filtering>
-							<excludes>
-								<exclude>views/main.html</exclude>
-							</excludes>
-							</resource>
 					</webResources>
 				</configuration>
 			</plugin>
