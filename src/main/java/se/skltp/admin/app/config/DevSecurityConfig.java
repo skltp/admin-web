@@ -38,7 +38,7 @@ public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		/* With this embedded auth in place there is no need to use a datasource to lookup the users */
 		auth.inMemoryAuthentication()
-		.withUser("user").password("password").roles("USER");
+		.withUser("user").password("{noop}password").roles("USER");
 	}
 
 	@Override
