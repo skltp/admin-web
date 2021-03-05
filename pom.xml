@@ -34,6 +34,19 @@
 		<java.version>1.8</java.version>
 	</properties>
 
+  <distributionManagement>
+    <repository>
+      <id>release-nexus</id>
+      <name>Release Nexus</name>
+      <url>${releases-nexus-url}</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshot-nexus</id>
+      <name>Snapshot Nexus</name>
+      <url>${snapshot-nexus-url}</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
 	<scm>
         <url>http://github.com/skltp-incubator/admin-web</url>
         <connection>scm:git:git://github.com/skltp-incubator/admin-web.git</connection>
