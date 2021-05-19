@@ -48,11 +48,11 @@
   </distributionManagement>
   
 	<scm>
-        <url>http://github.com/skltp-incubator/admin-web</url>
-        <connection>scm:git:git://github.com/skltp-incubator/admin-web.git</connection>
-        <developerConnection>scm:git:git://github.com/skltp-incubator/admin-web.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
+		<url>http://github.com/skltp/admin-web.git</url>
+		<connection>scm:git:https://github.com/skltp/admin-web.git</connection>
+		<developerConnection>scm:git:https://github.com/skltp//admin-web.git</developerConnection>
+		<tag>HEAD</tag>
+ </scm>
 
 	<dependencies>
 		<!-- Spring Boot dependencies -->
