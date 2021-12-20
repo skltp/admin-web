@@ -23,16 +23,18 @@ package se.skltp.admin.app.config;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebMvcSecurity
+@EnableWebSecurity
 @Profile("default")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -43,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth)
 			throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource)
-			.passwordEncoder(new ShaPasswordEncoder())
+			.passwordEncoder(passwordEncoder())
 			.usersByUsernameQuery("select anvandarnamn AS username, losenord_hash AS password, true AS enabled from Anvandare where anvandarnamn = ?")
 			.authoritiesByUsernameQuery("select anvandarnamn AS username, CASE WHEN administrator = 1 THEN 'ROLE_ADMIN' ELSE 'ROLE_USER' END AS authority from Anvandare where anvandarnamn = ?");
 	}
@@ -53,5 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/**").hasAnyRole("ADMIN", "USER")
 			.anyRequest().anonymous().and().httpBasic();
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new MessageDigestPasswordEncoder("SHA-1");
 	}
 }

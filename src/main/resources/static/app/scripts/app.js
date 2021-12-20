@@ -28,6 +28,9 @@ angular.module('adminWebApp', [
    'pingForConfigurationModule',
    'eiModule'
 ]).config(function ($routeProvider, $locationProvider, $provide) {
+
+	   $locationProvider.html5Mode(false);
+	   
     $routeProvider
 
         .when('/main', {

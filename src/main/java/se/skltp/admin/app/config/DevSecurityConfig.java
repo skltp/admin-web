@@ -25,11 +25,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 
 @Configuration
-@EnableWebMvcSecurity
+@EnableWebSecurity
 @Profile("dev")
 public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -38,7 +38,7 @@ public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		/* With this embedded auth in place there is no need to use a datasource to lookup the users */
 		auth.inMemoryAuthentication()
-		.withUser("user").password("password").roles("USER");
+		.withUser("user").password("{noop}password").roles("USER");
 	}
 
 	@Override
