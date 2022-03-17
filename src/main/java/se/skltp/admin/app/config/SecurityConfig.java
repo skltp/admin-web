@@ -53,8 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+			.antMatchers("/actuator/info").permitAll()
 			.antMatchers("/**").hasAnyRole("ADMIN", "USER")
-			.anyRequest().anonymous().and().httpBasic();
+			.and()
+			.httpBasic();
 	}
 	
 	@Bean
