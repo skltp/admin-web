@@ -25,7 +25,7 @@
 	<groupId>se.skltp.admin</groupId>
 	<artifactId>skltp-admin-web</artifactId>
 	<name>skltp-admin-web</name>
-	<version>1.1.0-RC3</version>
+	<version>1.1.0-RC4-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 	<packaging>war</packaging>
 
@@ -52,7 +52,7 @@
 		<url>http://github.com/skltp/admin-web.git</url>
 		<connection>scm:git:https://github.com/skltp/admin-web.git</connection>
 		<developerConnection>scm:git:https://github.com/skltp//admin-web.git</developerConnection>
-		<tag>v1.1.0-RC3</tag>
+		<tag>HEAD</tag>
  </scm>
 
 	<dependencies>
