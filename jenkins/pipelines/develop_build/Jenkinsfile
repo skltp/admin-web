@@ -18,7 +18,7 @@ pipeline {
             }
             steps {
                 echo 'Since we are running a develop build, we use the byggReleaseConfig for Maven'
-                configFileProvider([configFile(fileId: "byggReleaseConfig", variable: 'MAVEN_SETTINGS')]) {
+                configFileProvider([configFile(fileId: "ae5eda6d-e166-4b43-a78c-ed67ed10cac0", variable: 'MAVEN_SETTINGS')]) {
                     sh 'pwd'
                     echo 'Compiling, testing and building...'
                     sh 'mvn --global-settings ${MAVEN_SETTINGS} -P test-coverage clean install'
