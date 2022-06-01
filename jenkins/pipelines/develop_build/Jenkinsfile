@@ -18,7 +18,7 @@ pipeline {
             }
             steps {
                 echo 'Since we are running a develop build, we use the byggReleaseConfig for Maven'
-                configFileProvider([configFile(fileId: "ae5eda6d-e166-4b43-a78c-ed67ed10cac0", variable: 'MAVEN_SETTINGS')]) {
+                configFileProvider([configFile(fileId: "byggReleaseConfig", variable: 'MAVEN_SETTINGS')]) {
                     sh 'pwd'
                     echo 'Compiling, testing and building...'
                     sh 'mvn --global-settings ${MAVEN_SETTINGS} clean install'
@@ -30,7 +30,7 @@ pipeline {
         }
         stage('SonarScanner'){
             when {
-                branch 'develop'
+                branch '*/develop'
             }
             steps {
                 withSonarQubeEnv(credentialsId: "${params.SONAR_TOKENID}", installationName: "${params.SONAR_ENV}") {
@@ -38,7 +38,6 @@ pipeline {
                             -Dsonar.projectKey=${params.SONAR_PROJECTKEY} \
                             -Dsonar.projectVersion=${pomVersion} \
                             -Dsonar.java.binaries=${params.SONAR_JAVA_BINARIES} \
-                            -Dsonar.coverage.jacoco.xmlReportPaths=${params.SONAR_JACOCO_REPORTS} \
                             -Dsonar.test.inclusions=${params.SONAR_TEST_INCLUSIONS} \
                             -Dsonar.sourceEncoding=UTF-8
                         """
@@ -52,10 +51,9 @@ pipeline {
             script {
                 echo 'Starting results handling...'
                 junit '**/target/surefire-reports/TEST-*.xml'
-                jacoco()
                 archiveArtifacts '**/target/*.war'
                 echo "Branch: ${BRANCH_NAME}. Only handle Sonar results on the develop branch."
-                if ("${BRANCH_NAME}" == 'develop') {
+                if ("${BRANCH_NAME}".endsWith('/develop')) {
                     timeout(time: 1, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
                     }
