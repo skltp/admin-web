@@ -30,7 +30,7 @@ pipeline {
         }
         stage('SonarScanner'){
             when {
-              branch comparator: 'REGEXP', pattern: '.*/develop'
+                branch 'develop'
             }
             steps {
                 withSonarQubeEnv(credentialsId: "${params.SONAR_TOKENID}", installationName: "${params.SONAR_ENV}") {
