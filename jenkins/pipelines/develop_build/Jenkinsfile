@@ -54,8 +54,8 @@ pipeline {
                 junit '**/target/surefire-reports/TEST-*.xml'
                 jacoco()
                 archiveArtifacts '**/target/*.war'
-                echo "Branch: ${BRANCH_NAME}. Only handle Sonar results on the develop branch."
-                if ("${BRANCH_NAME}".endsWith('/develop')) {
+                echo "Branch: ${GIT_BRANCH}. Only handle Sonar results on the develop branch."
+                if ("${GIT_BRANCH}".endsWith('/develop')) {
                     timeout(time: 1, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
                     }
