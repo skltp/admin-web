@@ -30,7 +30,7 @@ pipeline {
         }
         stage('SonarScanner'){
             when {
-                branch '*/introduce-jacoco'
+                branch '*/feature/introduce-jacoco'
             }
             steps {
                 withSonarQubeEnv(credentialsId: "${params.SONAR_TOKENID}", installationName: "${params.SONAR_ENV}") {
