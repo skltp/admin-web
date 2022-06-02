@@ -51,7 +51,7 @@
 		<sonar.language>java</sonar.language>
 		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
   <distributionManagement>
@@ -184,6 +184,10 @@
 	</dependencies>
 
 	<build>
+		<!--
+		<finalName>${project.artifactId}</finalName>
+		-->
+    
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -376,7 +380,7 @@
 									<goal>prepare-agent</goal>
 								</goals>
 								<configuration>
-									<destFile>${jacoco.reportPath}</destFile>
+									<destFile>${sonar.jacoco.reportPath}</destFile>
 									<propertyName>surefireArgLine</propertyName>
 								</configuration>
 							</execution>
@@ -398,7 +402,7 @@
 									<goal>prepare-agent</goal>
 								</goals>
 								<configuration>
-									<destFile>${jacoco.itReportPath}</destFile>
+									<destFile>${sonar.jacoco.itReportPath}</destFile>
 									<propertyName>failsafeArgLine</propertyName>
 								</configuration>
 							</execution>
