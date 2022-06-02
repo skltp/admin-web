@@ -46,6 +46,7 @@
 		<jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
 		<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
 		<jacoco.reportPath>${project.basedir}/../target/jacoco.exec</jacoco.reportPath>
+		<project.reporting.outputDirectory>${project.basedir}/report</project.reporting.outputDirectory>
 
 		<sonar.language>java</sonar.language>
 		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
