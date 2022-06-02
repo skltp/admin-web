@@ -21,7 +21,7 @@ pipeline {
                 configFileProvider([configFile(fileId: "byggReleaseConfig", variable: 'MAVEN_SETTINGS')]) {
                     sh 'pwd'
                     echo 'Compiling, testing and building...'
-                    sh 'mvn --global-settings ${MAVEN_SETTINGS} clean install'
+                    sh 'mvn --global-settings ${MAVEN_SETTINGS} -P test-coverage,leak clean install'
                     script {
                         pomVersion = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
                     }
@@ -38,6 +38,7 @@ pipeline {
                             -Dsonar.projectKey=${params.SONAR_PROJECTKEY} \
                             -Dsonar.projectVersion=${pomVersion} \
                             -Dsonar.java.binaries=${params.SONAR_JAVA_BINARIES} \
+                            -Dsonar.coverage.jacoco.xmlReportPaths=${params.SONAR_JACOCO_REPORTS} \
                             -Dsonar.test.inclusions=${params.SONAR_TEST_INCLUSIONS} \
                             -Dsonar.sourceEncoding=UTF-8
                         """
@@ -51,6 +52,7 @@ pipeline {
             script {
                 echo 'Starting results handling...'
                 junit '**/target/surefire-reports/TEST-*.xml'
+                jacoco()
                 archiveArtifacts '**/target/*.war'
                 echo "Branch: ${BRANCH_NAME}. Only handle Sonar results on the develop branch."
                 if ("${BRANCH_NAME}".endsWith('/develop')) {
