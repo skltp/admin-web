@@ -85,7 +85,7 @@ pipeline {
 
         cleanup {
             echo 'Cleaning workspace...'
-            cleanWs()
+            //cleanWs()
         }
     }
 }
