@@ -21,7 +21,7 @@ pipeline {
                 configFileProvider([configFile(fileId: "byggReleaseConfig", variable: 'MAVEN_SETTINGS')]) {
                     sh 'pwd'
                     echo 'Compiling, testing and building...'
-                    sh 'mvn --global-settings ${MAVEN_SETTINGS} -P test-coverage,leak clean install'
+                    sh 'mvn --global-settings ${MAVEN_SETTINGS} clean install'
                     script {
                         pomVersion = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
                     }
@@ -30,7 +30,7 @@ pipeline {
         }
         stage('SonarScanner'){
             when {
-                branch '*/develop'
+               branch '*/develop'
             }
             steps {
                 withSonarQubeEnv(credentialsId: "${params.SONAR_TOKENID}", installationName: "${params.SONAR_ENV}") {
@@ -65,8 +65,8 @@ pipeline {
 
         unsuccessful {
             echo 'Build unsuccessful'
-            emailext attachLog: true, 
-                subject: "Build failed in Jenkins: ${JOB_NAME}#${BUILD_NUMBER}", 
+            emailext attachLog: true,
+                subject: "Build failed in Jenkins: ${JOB_NAME}#${BUILD_NUMBER}",
                 body: "See ${BUILD_URL} for details.",
                 to: "${params.EMAIL_RECIPIENTS}"
         }
@@ -75,17 +75,17 @@ pipeline {
             script {
                 if ("${currentBuild.currentResult}" == 'SUCCESS') {
                     echo "Current build successful, previous build was unsuccessful"
-                    emailext attachLog: true, 
-                        subject: "${JOB_NAME} back to stable", 
+                    emailext attachLog: true,
+                        subject: "${JOB_NAME} back to stable",
                         body: "See ${BUILD_URL} for details.",
-                        to: "${params.EMAIL_RECIPIENTS}"        
+                        to: "${params.EMAIL_RECIPIENTS}"
                 }
             }
         }
 
         cleanup {
             echo 'Cleaning workspace...'
-            //cleanWs()
+            cleanWs()
         }
     }
 }
