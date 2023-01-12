@@ -24,9 +24,7 @@ angular.module('adminWebApp', [
   'ngSanitize',
   'ngRoute',
   'restangular',
-   'jmsDestinationsModule',
-   'pingForConfigurationModule',
-   'eiModule'
+   'jmsDestinationsModule'
 ]).config(function ($routeProvider, $locationProvider, $provide) {
 
 	   $locationProvider.html5Mode(false);
@@ -39,26 +37,6 @@ angular.module('adminWebApp', [
         .when('/jms', {
             templateUrl: 'modules/jms/views/list.html',
             controller: 'jmsDestinationsCtrl'
-        })
-        .when('/pingForConfiguration', {
-            templateUrl: 'modules/pfc/views/list.html',
-            controller: 'pingForConfigurationCtrl'
-        })
-        .when('/eiLoad', {
-            templateUrl: 'modules/ei/views/eiLoad.html',
-            controller: 'eiCtrl'
-        })
-        .when('/eiSearch', {
-            templateUrl: 'modules/ei/views/eiSearch.html',
-            controller: 'eiCtrl'
-        })
-        .when('/eiDelete', {
-            templateUrl: 'modules/ei/views/eiDelete.html',
-            controller: 'eiCtrl'
-        })
-        .when('/eiResend', {
-            templateUrl: 'modules/ei/views/eiResend.html',
-            controller: 'eiCtrl'
         })
         .otherwise({
     	  redirectTo: '/main'

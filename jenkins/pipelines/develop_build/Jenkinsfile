@@ -30,7 +30,7 @@ pipeline {
         }
         stage('SonarScanner'){
             when {
-                branch 'develop'
+               branch '*/develop'
             }
             steps {
                 withSonarQubeEnv(credentialsId: "${params.SONAR_TOKENID}", installationName: "${params.SONAR_ENV}") {
@@ -54,8 +54,8 @@ pipeline {
                 junit '**/target/surefire-reports/TEST-*.xml'
                 jacoco()
                 archiveArtifacts '**/target/*.war'
-                echo "Branch: ${BRANCH_NAME}. Only handle Sonar results on the develop branch."
-                if ("${BRANCH_NAME}" == 'develop') {
+                echo "Branch: ${GIT_BRANCH}. Only handle Sonar results on the develop branch."
+                if ("${GIT_BRANCH}".endsWith('/develop')) {
                     timeout(time: 1, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
                     }
@@ -65,8 +65,9 @@ pipeline {
 
         unsuccessful {
             echo 'Build unsuccessful'
-            emailext attachLog: true, 
-                subject: "Build failed in Jenkins: ${JOB_NAME}#${BUILD_NUMBER}", 
+            emailext attachLog: true,
+                subject: "Build failed in Jenkins: ${JOB_NAME}#${BUILD_NUMBER}",
+
                 body: "See ${BUILD_URL} for details.",
                 to: "${params.EMAIL_RECIPIENTS}"
         }
@@ -75,10 +76,10 @@ pipeline {
             script {
                 if ("${currentBuild.currentResult}" == 'SUCCESS') {
                     echo "Current build successful, previous build was unsuccessful"
-                    emailext attachLog: true, 
-                        subject: "${JOB_NAME} back to stable", 
+                    emailext attachLog: true,
+                        subject: "${JOB_NAME} back to stable",
                         body: "See ${BUILD_URL} for details.",
-                        to: "${params.EMAIL_RECIPIENTS}"        
+                        to: "${params.EMAIL_RECIPIENTS}"
                 }
             }
         }
