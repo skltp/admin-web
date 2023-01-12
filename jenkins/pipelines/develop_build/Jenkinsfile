@@ -67,6 +67,7 @@ pipeline {
             echo 'Build unsuccessful'
             emailext attachLog: true,
                 subject: "Build failed in Jenkins: ${JOB_NAME}#${BUILD_NUMBER}",
+
                 body: "See ${BUILD_URL} for details.",
                 to: "${params.EMAIL_RECIPIENTS}"
         }
