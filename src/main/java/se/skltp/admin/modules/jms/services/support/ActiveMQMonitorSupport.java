@@ -20,13 +20,7 @@
  */
 package se.skltp.admin.modules.jms.services.support;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javax.jms.InvalidSelectorException;
 import javax.jms.JMSException;
@@ -58,6 +52,9 @@ public class ActiveMQMonitorSupport {
 	private boolean useBrokerCredentials;
 	private String brokerUsername;
 	private String brokerPassword;
+	private boolean useBrokerJmxCredentials;
+	private String brokerJmxUsername;
+	private String brokerJmxPassword;
 
 	/**
 	 * For testing only.
@@ -128,7 +125,7 @@ public class ActiveMQMonitorSupport {
 			brokerPresentationName[i] = amqHosts[i] + ":" + amqBrokerPorts[i];
 		}
 	}
-	
+
 	public void setBrokerUsername(String brokerUsername) {
 		this.brokerUsername = brokerUsername;
 		if (brokerUsername != null && brokerUsername.trim().length() > 0) {
@@ -138,6 +135,17 @@ public class ActiveMQMonitorSupport {
 
 	public void setBrokerPassword(String brokerPassword) {
 		this.brokerPassword = brokerPassword;
+	}
+
+	public void setBrokerJmxUsername(String brokerJmxUsername) {
+		this.brokerJmxUsername = brokerJmxUsername;
+		if (brokerJmxUsername != null && brokerJmxUsername.trim().length() > 0) {
+			useBrokerJmxCredentials = true;
+		}
+	}
+
+	public void setBrokerJmxPassword(String brokerJmxPassword) {
+		this.brokerJmxPassword = brokerJmxPassword;
 	}
 
 	/**
@@ -234,9 +242,14 @@ public class ActiveMQMonitorSupport {
 			String jmxServiceUrl, String jmxBrokerName,
 			String brokerPresentationName) {
 		JMXConnector jmxc = null;
+		HashMap<String, Object> environment = null;
 		try {
 			JMXServiceURL url = new JMXServiceURL(jmxServiceUrl);
-			jmxc = JMXConnectorFactory.connect(url);
+			if (useBrokerJmxCredentials) {
+				environment = new HashMap<>();
+				environment.put(JMXConnector.CREDENTIALS, new String[]{brokerJmxUsername, brokerJmxPassword});
+			}
+			jmxc = JMXConnectorFactory.connect(url, environment);
 			MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
 
 			// System.out.println("--- DOMAINS ---");

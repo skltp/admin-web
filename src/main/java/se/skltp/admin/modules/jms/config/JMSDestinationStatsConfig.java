@@ -38,6 +38,12 @@ public class JMSDestinationStatsConfig {
 	@Value("${brokerPassword}")
 	private String brokerPassword;
 
+	@Value("${brokerJmxUsername}")
+	private String brokerJmxUsername;
+
+	@Value("${brokerJmxPassword}")
+	private String brokerJmxPassword;
+
 	@Value("${brokerHost}")
 	private String brokerHost;
 
