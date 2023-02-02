@@ -38,6 +38,12 @@ public class JMSDestinationStatsConfig {
 	@Value("${brokerPassword}")
 	private String brokerPassword;
 
+	@Value("${brokerJmxUsername}")
+	private String brokerJmxUsername;
+
+	@Value("${brokerJmxPassword}")
+	private String brokerJmxPassword;
+
 	@Value("${brokerHost}")
 	private String brokerHost;
 
@@ -58,6 +64,8 @@ public class JMSDestinationStatsConfig {
 		ActiveMQMonitorSupport amqSupport =  new ActiveMQMonitorSupport(brokerHost, brokerJmxPort, brokerPort, brokerName, queuePatterns);
 		amqSupport.setBrokerUsername(brokerUsername);
 		amqSupport.setBrokerPassword(brokerPassword);
+		amqSupport.setBrokerJmxUsername(brokerJmxUsername);
+		amqSupport.setBrokerJmxPassword(brokerJmxPassword);
 		return amqSupport;
 	}
 }
