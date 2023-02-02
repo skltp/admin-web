@@ -23,7 +23,7 @@
 	<groupId>se.skltp.admin</groupId>
 	<artifactId>skltp-admin-web</artifactId>
 	<name>skltp-admin-web</name>
-	<version>1.0.9-SNAPSHOT</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 	<packaging>war</packaging>
 
