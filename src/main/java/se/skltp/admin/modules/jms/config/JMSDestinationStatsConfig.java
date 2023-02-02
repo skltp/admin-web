@@ -64,6 +64,8 @@ public class JMSDestinationStatsConfig {
 		ActiveMQMonitorSupport amqSupport =  new ActiveMQMonitorSupport(brokerHost, brokerJmxPort, brokerPort, brokerName, queuePatterns);
 		amqSupport.setBrokerUsername(brokerUsername);
 		amqSupport.setBrokerPassword(brokerPassword);
+		amqSupport.setBrokerJmxUsername(brokerJmxUsername);
+		amqSupport.setBrokerJmxPassword(brokerJmxPassword);
 		return amqSupport;
 	}
 }
