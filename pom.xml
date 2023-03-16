@@ -23,7 +23,7 @@
 	<groupId>se.skltp.admin</groupId>
 	<artifactId>skltp-admin-web</artifactId>
 	<name>skltp-admin-web</name>
-	<version>1.1.2-SNAPSHOT</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 	<packaging>war</packaging>
 
@@ -49,7 +49,7 @@
 
 	<properties>
 		<spring-boot.version>2.6.6</spring-boot.version>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<log4j2.version>2.17.1</log4j2.version>
 	</properties>
 
