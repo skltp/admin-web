@@ -1,6 +1,6 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cooperation-configmap-default
+  name: adminweb-configmap-default
 data:
   foo: bar
