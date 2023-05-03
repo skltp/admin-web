@@ -1,0 +1,18 @@
+repository: test/
+
+replicaCount: 1
+
+container:
+  image:
+    tag: # To override the default tag, set it here.
+
+environment:
+  variables:
+    _default_config_maps:
+      - adminweb-configmap-default
+    config_maps:
+      # Nothing yet. Override to supply your own values.
+    secrets:
+      # Nothing yet.
+    map: 
+      

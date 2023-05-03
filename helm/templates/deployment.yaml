@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminweb
+  labels:
+    {{- include "adminweb.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: adminweb
+      {{- include "adminweb.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: adminweb
+        {{- include "adminweb.selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: adminweb
+          image: "{{ .Values.repository }}skltp-admin-web:{{ .Values.container.image.tag | default $.Chart.AppVersion }}"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          {{- with .Values.environment.variables }}
+          {{- if .map }}
+          env:
+            {{- range $k, $v := .map }}
+            - name: {{ $k }}
+              value: {{ $v }}
+            {{- end }}
+          {{- end }}
+          {{- end }}
+          envFrom:
+            {{- range .Values.environment.variables._default_config_maps }}
+            - configMapRef:
+                name: {{ . }}
+            {{- end }}
+            {{- range .Values.environment.variables.config_maps }}
+            - configMapRef:
+                name: {{ . }}
+            {{- end }}
+            {{- range .Values.environment.variables.secrets }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
