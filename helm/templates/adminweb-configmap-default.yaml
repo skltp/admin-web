@@ -4,3 +4,4 @@ metadata:
   name: adminweb-configmap-default
 data:
   SPRING_DATASOURCE_DRIVERCLASSNAME: "com.mysql.cj.jdbc.Driver"
+  TOMCAT_USERNAME: user
