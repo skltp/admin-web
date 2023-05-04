@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: adminweb-configmap-default
 data:
-  foo: bar
+  SPRING_DATASOURCE_DRIVERCLASSNAME: "com.mysql.cj.jdbc.Driver"
