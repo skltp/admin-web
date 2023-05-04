@@ -11,8 +11,16 @@ environment:
     _default_config_maps:
       - adminweb-configmap-default
     config_maps:
-      # Nothing yet. Override to supply your own values.
+      # Override to supply your own values.
     secrets:
-      # Nothing yet.
-    map: 
+      # Override to supply your own values.
+    _default_envVars: 
+      - name: TOMCAT_ALLOW_REMOTE_MANAGEMENT
+        value: '0'
+      - name: SPRING_DATASOURCE_DRIVERCLASSNAME
+        value: com.mysql.cj.jdbc.Driver
+      - name: TOMCAT_USERNAME
+        value: user
+    envVars:
+      # Override to implement your own.
       
