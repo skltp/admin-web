@@ -1,0 +1,46 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+  name: adminweb-https
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`tak.dev.ntjp.se`) && PathPrefix(`/admin-web`)
+      priority: 10
+      services:
+        - kind: Service
+          name: service-adminweb
+          passHostHeader: true
+          port: 8080
+          responseForwarding:
+            flushInterval: 1ms
+          scheme: http
+          sticky:
+            cookie:
+              httpOnly: true
+              name: cookie
+              sameSite: none
+              secure: true
+          strategy: RoundRobin
+          weight: 10
+  tls:
+    domains:
+      - main: tak.dev.ntjp.se
+    secretName: tak.dev.ntjp.se-letsencrypt
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+  name: adminweb-http
+spec:
+  routes:
+  - kind: Rule
+    match: Host(`tak.dev.ntjp.se`) && PathPrefix(`/admin-web`)
+    middlewares:
+      - name: adminweb-redirect-https
+    services:
+      - kind: Service
+        name: adminweb-service
+        port: 8080

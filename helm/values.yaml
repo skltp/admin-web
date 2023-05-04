@@ -13,6 +13,6 @@ environment:
     config_maps:
       # Nothing yet. Override to supply your own values.
     secrets:
-      - adminweb-secrets-default
+      # Nothing yet.
     map: 
       
