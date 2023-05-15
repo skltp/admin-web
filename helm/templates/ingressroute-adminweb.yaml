@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`dev.ntjp.se`) && PathPrefix(`/admin-web`)
+      match: Host(`{{ .Values.ingressroute.hosturl }}`) && PathPrefix(`/admin-web`)
       priority: 10
       services:
         - kind: Service
@@ -37,7 +37,7 @@ metadata:
 spec:
   routes:
   - kind: Rule
-    match: Host(`dev.ntjp.se`) && PathPrefix(`/admin-web`)
+    match: Host(`{{ .Values.ingressroute.hosturl }}`) && PathPrefix(`/admin-web`)
     middlewares:
       - name: adminweb-redirect-https
     services:

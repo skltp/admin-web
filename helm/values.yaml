@@ -2,6 +2,9 @@ repository: test/
 
 replicaCount: 1
 
+ingressroute:
+  hosturl: base.env.url # This should be overridden and set to your environment's base URL.
+
 container:
   image:
     tag: # To override the default tag, set it here.

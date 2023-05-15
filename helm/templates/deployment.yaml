@@ -27,8 +27,10 @@ spec:
               protocol: TCP
           {{- if .Values.environment.variables._default_envVars }}
           env:
-            {{- toYaml .Values.environment.variables._default_envVars | nindent 12 }} 
-            {{- toYaml .Values.environment.variables.envVars | nindent 12 }} 
+            {{- toYaml .Values.environment.variables._default_envVars | nindent 12 }}
+            {{ with .Values.environment.variables.envVars }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- end }}
 
           envFrom:
