@@ -26,8 +26,8 @@ spec:
           weight: 10
   tls:
     domains:
-      - main: tak.dev.ntjp.se
-    secretName: tak.dev.ntjp.se-letsencrypt
+      - main: {{ .Values.ingressroute.hostUrl }}
+    secretName: {{ .Values.ingressroute.hostUrl }}-letsencrypt
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
