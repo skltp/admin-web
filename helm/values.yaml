@@ -1,0 +1,29 @@
+repository: test/
+
+ingressroute:
+  hostUrl: base.env.url # This should be overridden and set to your environment's base URL.
+
+replicaCount: 1
+
+container:
+  image:
+    tag: # To override the default tag, set it here.
+
+environment:
+  variables:
+    _default_config_maps:
+      - adminweb-configmap-default
+    config_maps:
+      # Override to supply your own values.
+    secrets:
+      # Override to supply your own values.
+    _default_envVars: 
+      - name: TOMCAT_ALLOW_REMOTE_MANAGEMENT
+        value: '0'
+      - name: SPRING_DATASOURCE_DRIVERCLASSNAME
+        value: com.mysql.cj.jdbc.Driver
+      - name: TOMCAT_USERNAME
+        value: user
+    envVars:
+      # Override to implement your own.
+      
