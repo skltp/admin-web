@@ -8,6 +8,7 @@ replicaCount: 1
 container:
   image:
     tag: # To override the default tag, set it here.
+    pullPolicy: Always
 
 environment:
   variables:
