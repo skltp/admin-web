@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminweb
+  labels:
+    {{- include "adminweb.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: adminweb
+      {{- include "adminweb.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: adminweb
+        {{- include "adminweb.selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: adminweb
+          image: "{{ .Values.repository }}skltp-admin-web:{{ .Values.container.image.tag | default $.Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.container.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: admin-web/actuator/health/liveness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: admin-web/actuator/health/readiness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          {{- if .Values.environment.variables._default_envVars }}
+          env:
+            {{- toYaml .Values.environment.variables._default_envVars | nindent 12 }}
+            {{ with .Values.environment.variables.envVars }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
+
+          envFrom:
+            {{- range .Values.environment.variables._default_config_maps }}
+            - configMapRef:
+                name: {{ . }}
+            {{- end }}
+            {{- range .Values.environment.variables.config_maps }}
+            - configMapRef:
+                name: {{ . }}
+            {{- end }}
+            {{- range .Values.environment.variables.secrets }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
