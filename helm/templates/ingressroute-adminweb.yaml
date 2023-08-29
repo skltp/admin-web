@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`{{ .Values.ingressroute.hostUrl }}`) && PathPrefix(`/admin-web`)
+      match: Host(`{{ .Values.ingressroute.hostName }}`) && PathPrefix(`/admin-web`)
       priority: 10
       services:
         - kind: Service
@@ -26,8 +26,8 @@ spec:
           weight: 10
   tls:
     domains:
-      - main: {{ .Values.ingressroute.hostUrl }}
-    secretName: {{ .Values.ingressroute.hostUrl }}-letsencrypt
+      - main: {{ .Values.ingressroute.hostName }}
+    secretName: {{ .Values.ingressroute.hostName }}-letsencrypt
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -37,7 +37,7 @@ metadata:
 spec:
   routes:
   - kind: Rule
-    match: Host(`{{ .Values.ingressroute.hostUrl }}`) && PathPrefix(`/admin-web`)
+    match: Host(`{{ .Values.ingressroute.hostName }}`) && PathPrefix(`/admin-web`)
     middlewares:
       - name: adminweb-redirect-https
     services:

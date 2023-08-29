@@ -1,7 +1,7 @@
 repository: test/
 
 ingressroute:
-  hostUrl: base.env.url # This should be overridden and set to your environment's base URL.
+  hostName: base.env.url # This should be overridden and set to your environment's base name.
 
 replicaCount: 1
 
