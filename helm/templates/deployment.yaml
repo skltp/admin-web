@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "adminweb.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.deployment.replicaCount }}
   selector:
     matchLabels:
       app: adminweb
@@ -14,6 +14,7 @@ spec:
     metadata:
       labels:
         app: adminweb
+        elasticGrokFilter: {{ .Values.deployment.elasticGrokFilter }}
         {{- include "adminweb.selectorLabels" . | nindent 8 }}
     spec:
       imagePullSecrets:
