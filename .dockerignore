@@ -1,2 +1,5 @@
-**
-!target/*.war
+*
+!Dockerfile
+!log4j2.xml
+!src
+!pom.xml

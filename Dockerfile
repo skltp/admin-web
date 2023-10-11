@@ -1,10 +1,16 @@
-#FROM tomcat:9-jdk11-openjdk
-FROM bitnami/tomcat:9.0
+FROM maven:3-ibm-semeru-11-focal AS maven
 
-ENV TOMCAT_BASE_DIR=/opt/bitnami/tomcat
-ENV APP_WAR=$TOMCAT_BASE_DIR/webapps_default/admin-web.war \
-    LOG4J_CONFIGURATION_FILE=$TOMCAT_BASE_DIR/conf/admin-web-log4j.xml
+WORKDIR /opt/build
 
-RUN rm -rf $TOMCAT_BASE_DIR/webapps_default/*
+RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+    --mount=type=bind,source=src,target=src \
+    mvn install -Pjar
 
-COPY target/skltp-admin-web-*.war $APP_WAR
+
+FROM ibm-semeru-runtimes:open-11-jre AS admin-web
+ENV LOGGING_CONFIG=/opt/app/log4j2.xml
+COPY --from=maven /opt/build/target/*.jar /opt/app/app.jar
+COPY log4j2.xml ${LOGGING_CONFIG}
+RUN useradd ind-app -MU
+USER ind-app
+CMD ["java", "-jar", "/opt/app/app.jar"]
