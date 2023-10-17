@@ -8,6 +8,7 @@ spec:
     - kind: Rule
       match: Host(`{{ .Values.ingressroute.bksHostName }}`) && PathPrefix(`/admin-web`)
       middlewares:
+        - name: ipwhitelist
         - name: adminweb-stripprefix
       priority: 10
       services:
@@ -41,6 +42,7 @@ spec:
   - kind: Rule
     match: Host(`{{ .Values.ingressroute.bksHostName }}`) && PathPrefix(`/admin-web`)
     middlewares:
+      - name: ipwhitelist
       - name: adminweb-redirect-https
     services:
       - kind: Service
