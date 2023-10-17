@@ -3,7 +3,7 @@ kind: Middleware
 metadata:
   labels:
     app.kubernetes.io/instance: {{ .Chart.Name }}
-  name: adminweb-redirect-https
+  name: {{ .Chart.Name }}-redirect-https
 spec:
   redirectScheme:
     permanent: true
@@ -14,7 +14,7 @@ kind: Middleware
 metadata:
   labels:
     app.kubernetes.io/instance: {{ .Chart.Name }}
-  name: adminweb-stripprefix
+  name: {{ .Chart.Name }}-stripprefix
 spec:
   stripPrefix:
     prefixes:
@@ -25,7 +25,7 @@ kind: Middleware
 metadata:
   labels:
     app.kubernetes.io/instance: {{ .Chart.Name }}
-  name: ipwhitelist
+  name: {{ .Chart.Name }}-ipwhitelist
 spec:
   ipWhiteList:
     sourceRange:
