@@ -6,6 +6,7 @@ ingressroute:
 deployment:
   replicaCount: 1
   elasticGrokFilter: admin-web
+  memory: 512Mi
 
 container:
   image:
