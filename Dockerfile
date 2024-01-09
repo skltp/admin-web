@@ -13,4 +13,4 @@ COPY --from=maven /opt/build/target/*.jar /opt/app/app.jar
 COPY log4j2.xml ${LOGGING_CONFIG}
 RUN useradd ind-app -MU
 USER ind-app
-CMD ["java", "-jar", "/opt/app/app.jar"]
+CMD java -XX:MaxRAMPercentage=75 ${JAVA_OPTS} -jar /opt/app/app.jar
