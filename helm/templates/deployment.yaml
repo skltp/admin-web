@@ -51,7 +51,7 @@ spec:
             limits:
               memory: {{ .Values.deployment.memory }}
             requests:
-              cpu: 50m
+              cpu: 25m
               memory: {{ .Values.deployment.memory }}
           {{- if .Values.environment.variables._default_envVars }}
           env:
