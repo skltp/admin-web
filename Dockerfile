@@ -7,7 +7,7 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     mvn install -Pjar
 
 
-FROM eclipse-temurin:11 AS admin-web
+FROM ibm-semeru-runtimes:open-11-jre AS admin-web
 ENV LOGGING_CONFIG=/opt/app/log4j2.xml
 COPY --from=maven /opt/build/target/*.jar /opt/app/app.jar
 COPY log4j2.xml ${LOGGING_CONFIG}
