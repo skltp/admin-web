@@ -6,7 +6,13 @@ ingressroute:
 deployment:
   replicaCount: 1
   elasticGrokFilter: admin-web
-  memory: 512Mi
+
+resources: {} # Remove the no-op curly-braces if you activate below commented-out resources.
+#  limits:
+#    memory: 512Mi
+#  requests:
+#    cpu: 25m
+#    memory: 512Mi
 
 container:
   image:

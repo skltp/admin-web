@@ -48,11 +48,7 @@ spec:
             successThreshold: 1
             timeoutSeconds: 5
           resources:
-            limits:
-              memory: {{ .Values.deployment.memory }}
-            requests:
-              cpu: 25m
-              memory: {{ .Values.deployment.memory }}
+            {{- toYaml .Values.resources | nindent 12 }} # Block-templated memory and CPU resources.
           {{- if .Values.environment.variables._default_envVars }}
           env:
             {{- toYaml .Values.environment.variables._default_envVars | nindent 12 }}
