@@ -26,6 +26,7 @@ angular.module('jmsDestinationsModule', []).
     console.log("jmsDestinationsCtrl setup, v1");
 
     getStatusFromServer();
+    getAppversionFromServer();
 
     var reloadIntervalInSecs = 10;
 
@@ -49,12 +50,20 @@ angular.module('jmsDestinationsModule', []).
 
     function getStatusFromServer() {
         Restangular.one(getPath($location) + 'api/jmsdestinationsstats').getList().then(function (jmsDestinations) {
+        console.log("There was no error getting the destination");
             $scope.jmsDestinations = jmsDestinations;
             $scope.jmsReloadInSecs = reloadIntervalInSecs;
-
         }, function () {
             console.log("There was an error getting the destination");
         });
     }
+
+    function getAppversionFromServer() {
+            Restangular.one(getPath($location) + 'api/appVersion').get().then(function (appVersion) {
+                $scope.appVersion = appVersion;
+            }, function () {
+                console.log("There was an error getting the app version");
+            });
+        }
 
   }]);
