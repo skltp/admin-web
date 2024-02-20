@@ -11,6 +11,6 @@ FROM ibm-semeru-runtimes:open-11-jre AS admin-web
 ENV LOGGING_CONFIG=/opt/app/log4j2.xml
 COPY --from=maven /opt/build/target/*.jar /opt/app/app.jar
 COPY log4j2.xml ${LOGGING_CONFIG}
-RUN useradd ind-app -MU
+RUN useradd ind-app -MU -u 1000
 USER ind-app
 CMD java -XX:MaxRAMPercentage=75 ${JAVA_OPTS} -jar /opt/app/app.jar
