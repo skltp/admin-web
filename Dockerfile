@@ -1,4 +1,4 @@
-FROM maven:3-ibm-semeru-11-focal AS maven
+FROM maven:3-eclipse-temurin-11-alpine AS maven
 
 WORKDIR /opt/build
 
@@ -7,10 +7,15 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     mvn install -Pjar
 
 
-FROM ibm-semeru-runtimes:open-11-jre AS admin-web
-ENV LOGGING_CONFIG=/opt/app/log4j2.xml
-COPY --from=maven /opt/build/target/*.jar /opt/app/app.jar
+FROM eclipse-temurin:11-jre-alpine AS admin-web
+ENV LOGGING_CONFIG=/opt/app/log4j2.xml \
+    BASE_DIR=/opt/app \
+    USER=ind-app
+
+WORKDIR ${BASE_DIR}
+
+COPY --from=maven /opt/build/target/*.jar ${BASE_DIR}/app.jar
 COPY log4j2.xml ${LOGGING_CONFIG}
-RUN useradd ind-app -MU -u 1000
-USER ind-app
+RUN adduser -HD -u 1000 -h ${BASE_DIR} ${USER}
+USER ${USER}
 CMD java -XX:MaxRAMPercentage=75 ${JAVA_OPTS} -jar /opt/app/app.jar
