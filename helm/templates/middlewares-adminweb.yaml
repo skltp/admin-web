@@ -27,6 +27,4 @@ metadata:
     app.kubernetes.io/instance: {{ .Chart.Name }}
   name: {{ .Chart.Name }}-ipwhitelist
 spec:
-  ipWhiteList:
-    sourceRange:
-      - 10.6.3.0/24 # Orange-VPN
+  ipWhiteList:{{ .Values.ipWhiteList | toYaml | nindent 4 }}

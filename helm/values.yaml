@@ -36,4 +36,8 @@ environment:
         value: user
     envVars:
       # Override to implement your own.
+
+ipWhiteList:
+  sourceRange:
+    - 127.0.0.1/32 #default, denies access from all IPs except localhost
       
