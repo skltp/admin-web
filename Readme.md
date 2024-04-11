@@ -7,6 +7,4 @@ Reason: The entire functionality of this application, which was to visualise the
 # NTjP AMQ ADMIN-WEB
 
 ---
-Dir src/environment contains scrips and config for setting up Tomcat
-and example of ActiveMQ config to allow testing with more than one broker (in
-a network-of-brokers setup).
+Application to visualise AMQ queue states.
